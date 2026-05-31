@@ -443,7 +443,27 @@ const PUZZLES = [
     items: ["KABIR", "GHALIB", "GULZAR", "NEERAJ"]
   }]
 },
-// DAY 7
+// JUNE 1
+{
+  groups: [{
+    color: "y",
+    name: "India Faced a Shortage of",
+    items: ["DIET COKE", "COTTON", "PETROL", "LPG"]
+  }, {
+    color: "r",
+    name: "Indian Superheroes",
+    items: ["KRRISH", "SHAKTIMAAN", "PAVITR PRABHAKAR", "NAGRAJ"]
+  }, {
+    color: "b",
+    name: "Games We Enjoyed as Kids",
+    items: ["HIDE & SEEK", "KHO-KHO", "7 UP", "ODD-EVE"]
+  }, {
+    color: "p",
+    name: "0 Calorie Variations",
+    items: ["SPRITE", "PEPSI", "PAPER BOAT", "MONSTER"]
+  }]
+},
+// DAY 7 (now June 2)
 {
   groups: [{
     color: "y",
@@ -1372,10 +1392,8 @@ const shuffle = arr => {
 };
 const fmt = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 const tileFontSize = w => {
-  if (w.length <= 4) return "clamp(0.82rem,2.2vw,1.05rem)";
-  if (w.length <= 6) return "clamp(0.7rem,1.9vw,0.9rem)";
-  if (w.length <= 9) return "clamp(0.58rem,1.6vw,0.76rem)";
-  return "clamp(0.46rem,1.3vw,0.62rem)";
+  // Keep font consistent; long words wrap to multiple lines instead of shrinking
+  return "clamp(0.7rem,1.9vw,0.92rem)";
 };
 const todayStr = () => {
   const d = new Date();
@@ -2009,8 +2027,8 @@ const CSS = `
     transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.2s ease,background 0.15s ease;
   }
   .mi-tile::before { content:''; position:absolute; inset:3px; border:1px solid rgba(255,215,0,0.12); border-radius:4px; pointer-events:none; z-index:1; }
-  .mi-tile-inner { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:5px 4px; text-align:center; pointer-events:none; z-index:2; }
-  .mi-tile-word  { font-family:'Lilita One','Arial Black',Arial,sans-serif; color:#F5EED8; line-height:1.18; word-break:break-word; text-shadow:0 1px 3px rgba(0,0,0,0.6); }
+  .mi-tile-inner { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:4px 3px; text-align:center; pointer-events:none; z-index:2; }
+  .mi-tile-word  { font-family:'Lilita One','Arial Black',Arial,sans-serif; color:#F5EED8; line-height:1.05; overflow-wrap:break-word; word-break:break-word; hyphens:auto; text-shadow:0 1px 3px rgba(0,0,0,0.6); max-width:100%; }
   @media(hover:hover){.mi-tile:not(.sel):not(.flying):hover{transform:translateY(-6px) scale(1.03);box-shadow:0 8px 0 rgba(80,0,40,0.8),0 14px 24px rgba(0,0,0,0.45);border-color:rgba(233,30,140,0.8);}}
   .mi-tile.sel { background:linear-gradient(160deg,#FFD700 0%,#F0A800 100%); border-color:#CC0000; transform:translateY(-10px) scale(1.06); box-shadow:0 14px 0 rgba(120,50,0,0.6),0 18px 32px rgba(255,180,0,0.4); }
   .mi-tile.sel .mi-tile-word { color:#1A0820; text-shadow:none; }
