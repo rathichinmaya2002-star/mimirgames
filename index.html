@@ -2542,7 +2542,7 @@ function Mimir() {
     const ns = saveWin();
     setStreak(ns);
     streakRef.current = ns;
-    setTimeout(() => { setWinMode("polaroid"); setShowWin(true); }, 1100);
+    setTimeout(() => { setWinMode("polaroid"); setShowWin(true); handleTakePolaroid(); }, 1100);
   }, [won]);
   const solvedWordSet = new Set(PUZZLE ? PUZZLE.categories.filter(c => solved.includes(c.color)).flatMap(c => c.words) : []);
   const flyingSet = new Set(flying);
