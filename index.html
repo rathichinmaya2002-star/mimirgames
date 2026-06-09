@@ -631,16 +631,16 @@ const PUZZLES = [
     items: ["370", "6000", "KUSHA ROAST", "SENSATION"]
   }, {
     color: "r",
-    name: "Indian Currency Notes",
-    items: ["10", "20", "50", "500"]
+    name: "Cleaning Procedures",
+    items: ["SCRAPING", "WASHING", "SANITISING", "RINSE"]
   }, {
     color: "b",
     name: "Tooth Issues",
     items: ["CAVITIES", "ABSCESS", "GRINDING", "STAINED"]
   }, {
     color: "p",
-    name: "Famous Lakes",
-    items: ["DAL", "WULAR", "CHILIKA", "VEMBANAD"]
+    name: "Tattoo Styles",
+    items: ["BLACKWORK", "TRIBAL", "MINIMALIST", "STICK & POKE"]
   }]
 },
 // DAY 7 (now June 11)
@@ -2458,6 +2458,7 @@ function Mimir() {
   const [developing, setDeveloping] = useState(false);
   const [polDataUrl, setPolDataUrl] = useState(null);
   const [showPol, setShowPol] = useState(false);
+  const [winMode, setWinMode] = useState("polaroid");
   const [boothPhase, setBoothPhase] = useState(null);
   const timerRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -2532,6 +2533,7 @@ function Mimir() {
     setPolDataUrl(null);
     setShowPol(false);
     setBoothPhase(null);
+    setWinMode("polaroid");
     setScreen("game");
   };
   useEffect(() => {
@@ -2540,7 +2542,7 @@ function Mimir() {
     const ns = saveWin();
     setStreak(ns);
     streakRef.current = ns;
-    setTimeout(() => setShowWin(true), 1100);
+    setTimeout(() => { setWinMode("polaroid"); setShowWin(true); }, 1100);
   }, [won]);
   const solvedWordSet = new Set(PUZZLE ? PUZZLE.categories.filter(c => solved.includes(c.color)).flatMap(c => c.words) : []);
   const flyingSet = new Set(flying);
@@ -2981,7 +2983,16 @@ function Mimir() {
     style: {
       background: c
     }
-  }))), /*#__PURE__*/React.createElement("div", {
+  }))), winMode === "polaroid" && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      fontFamily: "'Caveat',cursive",
+      fontSize: "1.5rem",
+      color: "#B8462B",
+      margin: "-6px 0 18px",
+      lineHeight: 1.2
+    }
+  }, "Solved it! Develop your polaroid \uD83D\uDCF8"), winMode === "stats" && /*#__PURE__*/React.createElement("div", {
     className: "mi-mini-grid"
   }, guessRows.map((row, ri) => /*#__PURE__*/React.createElement("div", {
     key: ri,
@@ -2992,7 +3003,7 @@ function Mimir() {
     style: {
       background: entry === "_" ? "#E8E0D4" : sqC[entry] || "#C0B8A8"
     }
-  }))))), /*#__PURE__*/React.createElement("div", {
+  }))))), winMode === "stats" && /*#__PURE__*/React.createElement("div", {
     className: "mi-stats"
   }, /*#__PURE__*/React.createElement("div", {
     className: "mi-stat"
@@ -3032,7 +3043,13 @@ function Mimir() {
     style: {
       fontSize: "1.1rem"
     }
-  }, "\uD83D\uDCF7"), "TAKE A POLAROID"))), developing && /*#__PURE__*/React.createElement("div", {
+  }, "\uD83D\uDCF7"), "TAKE A POLAROID"), winMode === "polaroid" && /*#__PURE__*/React.createElement("button", {
+    className: "mi-replay",
+    style: {
+      marginTop: 12
+    },
+    onClick: () => setWinMode("stats")
+  }, "View Stats"))), developing && /*#__PURE__*/React.createElement("div", {
     className: "mi-developing"
   }, /*#__PURE__*/React.createElement("div", {
     className: "mi-dev-label"
@@ -3060,6 +3077,7 @@ function Mimir() {
     className: "mi-pol-back",
     onClick: () => {
       setShowPol(false);
+      setWinMode("stats");
       setShowWin(true);
     }
   }, "\u2190 Back to Stats"))), toast && /*#__PURE__*/React.createElement("div", {
