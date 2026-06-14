@@ -1607,20 +1607,31 @@ const PUZZLES = [
 // ─── PUZZLE RESOLVER ──────────────────────────────────────────────────────────
 // Returns today's puzzle in the format the game engine expects,
 // or null if beyond 50 days.
+// Break window: June 14–17 2026 (day indices 17–20). Daily puzzles pause and an
+// archive of past puzzles is offered; the normal schedule resumes on June 18, so
+// the puzzle that would have been June 14 (array index 17) becomes June 18.
+const BREAK_START_INDEX = 17; // June 14
+const BREAK_END_INDEX = 20;   // June 17
+const BREAK_DAYS = 4;
+const ARCHIVE_START_INDEX = 4;  // June 1
+const ARCHIVE_END_INDEX = 16;   // June 13
+const buildPuzzleFromIndex = (arrIdx, extra) => {
+  const raw = PUZZLES[arrIdx];
+  if (!raw) return null;
+  return Object.assign({
+    categories: raw.groups.map(g => ({ color: g.color, name: g.name, words: g.items })),
+    dayIndex: arrIdx
+  }, extra || {});
+};
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
-  if (idx < 0 || idx >= PUZZLES.length) return null;
-  const raw = PUZZLES[idx];
-  // Normalize to internal format: color keys y/r/b/p, words array
-  const categories = raw.groups.map(g => ({
-    color: g.color,
-    name: g.name,
-    words: g.items
-  }));
-  return {
-    categories,
-    dayIndex: idx
-  };
+  if (idx < 0) return null;
+  if (idx >= BREAK_START_INDEX && idx <= BREAK_END_INDEX) {
+    return { onBreak: true, dayIndex: idx, categories: [] };
+  }
+  const arrIdx = idx > BREAK_END_INDEX ? idx - BREAK_DAYS : idx;
+  if (arrIdx < 0 || arrIdx >= PUZZLES.length) return null;
+  return buildPuzzleFromIndex(arrIdx);
 };
 const CAT_COLOR = {
   y: "#C9920A",
@@ -2519,6 +2530,7 @@ function Mimir() {
   const [screen, setScreen] = useState("landing");
   const [PUZZLE, setPUZZLE] = useState(null);
   const [noMorePuzzles, setNoMore] = useState(false);
+  const [onBreak, setOnBreak] = useState(false);
   const [board, setBoard] = useState([]);
   const [selected, setSelected] = useState([]);
   const [solved, setSolved] = useState([]);
@@ -2557,6 +2569,7 @@ function Mimir() {
       setNoMore(true);
       return;
     }
+    setOnBreak(!!p.onBreak);
     setPUZZLE(p);
 
     // ms remaining until next IST midnight
@@ -2577,6 +2590,7 @@ function Mimir() {
     const t = setTimeout(() => {
       const next = resolveTodaysPuzzle();
       if (!next) setNoMore(true);else {
+        setOnBreak(!!next.onBreak);
         setPUZZLE(next);
         setScreen("landing");
       }
@@ -2593,10 +2607,12 @@ function Mimir() {
     setToast(msg);
     setTimeout(() => setToast(null), ms);
   };
-  const startGame = () => {
-    if (!PUZZLE) return;
+  const startGame = (pz) => {
+    const P = pz && pz.categories ? pz : PUZZLE;
+    if (!P || P.onBreak) return;
+    if (pz && pz.categories) setPUZZLE(pz);
     clearInterval(timerRef.current);
-    setBoard(shuffle(PUZZLE.categories.flatMap(c => c.words)));
+    setBoard(shuffle(P.categories.flatMap(c => c.words)));
     setSelected([]);
     setSolved([]);
     setFlying([]);
@@ -2616,12 +2632,22 @@ function Mimir() {
     setWinMode("polaroid");
     setScreen("game");
   };
+  const handlePlay = () => {
+    if (onBreak) { setScreen("break"); return; }
+    startGame();
+  };
+  const playArchive = arrIdx => {
+    const pz = buildPuzzleFromIndex(arrIdx, { archive: true });
+    if (pz) startGame(pz);
+  };
   useEffect(() => {
     if (!won) return;
     clearInterval(timerRef.current);
-    const ns = saveWin();
-    setStreak(ns);
-    streakRef.current = ns;
+    if (!(PUZZLE && PUZZLE.archive)) {
+      const ns = saveWin();
+      setStreak(ns);
+      streakRef.current = ns;
+    }
     setTimeout(() => { setWinMode("polaroid"); setShowWin(true); handleTakePolaroid(); }, 1100);
   }, [won]);
   const solvedWordSet = new Set(PUZZLE ? PUZZLE.categories.filter(c => solved.includes(c.color)).flatMap(c => c.words) : []);
@@ -2914,7 +2940,7 @@ function Mimir() {
     }
   }))), /*#__PURE__*/React.createElement("button", {
     className: "mi-play",
-    onClick: startGame
+    onClick: handlePlay
   }, "PLAY")), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
@@ -2932,7 +2958,95 @@ function Mimir() {
     accent: "#FFD700"
   }))), /*#__PURE__*/React.createElement(ScallopBorder, {
     flip: true
-  })), screen === "game" && /*#__PURE__*/React.createElement("div", {
+  })), screen === "break" && /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      width: "100%",
+      background: "#E8950A",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "48px 20px 64px",
+      boxSizing: "border-box",
+      overflowY: "auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mi-wordmark",
+    style: {
+      fontSize: "clamp(2rem,9vw,3.2rem)",
+      color: "#1A0820",
+      letterSpacing: "4px",
+      marginBottom: 18,
+      textShadow: "2px 2px 0 rgba(255,215,0,0.7)"
+    }
+  }, "MIMIR"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Caveat',cursive",
+      fontSize: "clamp(1.25rem,4.6vw,1.7rem)",
+      color: "#3A1605",
+      textAlign: "center",
+      maxWidth: 460,
+      lineHeight: 1.45,
+      marginBottom: 30
+    }
+  }, "I am packing for moving to Mumbai for my masters, sorry can't make puzzles till 17th \uD83D\uDE14 but I have added an archive of the previous puzzles, thx for your patience :))"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Lilita One',sans-serif",
+      fontSize: "0.95rem",
+      letterSpacing: "2px",
+      color: "#1A0820",
+      marginBottom: 14
+    }
+  }, "ARCHIVE \u00B7 JUNE 1\u201313"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill,minmax(92px,1fr))",
+      gap: 12,
+      width: "100%",
+      maxWidth: 460
+    }
+  }, Array.from({
+    length: ARCHIVE_END_INDEX - ARCHIVE_START_INDEX + 1
+  }, (_, k) => {
+    const arrIdx = ARCHIVE_START_INDEX + k;
+    const day = arrIdx - 3;
+    return /*#__PURE__*/React.createElement("button", {
+      key: arrIdx,
+      onClick: () => playArchive(arrIdx),
+      style: {
+        cursor: "pointer",
+        border: "2px solid #1A0820",
+        borderRadius: 12,
+        background: "#FFF6E2",
+        padding: "14px 8px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 4,
+        fontFamily: "'Lilita One',sans-serif",
+        color: "#3A1605",
+        boxShadow: "0 3px 0 #1A0820"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "0.62rem",
+        letterSpacing: "1px",
+        color: "#9A6A12"
+      }
+    }, "JUNE"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "1.6rem",
+        lineHeight: 1
+      }
+    }, String(day)));
+  })), /*#__PURE__*/React.createElement("button", {
+    className: "mi-replay",
+    style: {
+      marginTop: 28,
+      background: "rgba(255,246,226,0.85)"
+    },
+    onClick: () => setScreen("landing")
+  }, "\u2190 Home")), screen === "game" && /*#__PURE__*/React.createElement("div", {
     className: "mi-game"
   }, /*#__PURE__*/React.createElement(RainbowBand, null), /*#__PURE__*/React.createElement("div", {
     className: "mi-game-inner"
