@@ -763,7 +763,27 @@ const PUZZLES = [
     items: ["RAJA", "RUNK", "CHOR", "SIPAHI"]
   }]
 },
-// DAY 7 (rivers — now June 21)
+// JUNE 21
+{
+  groups: [{
+    color: "y",
+    name: "Famous Schools",
+    items: ["SCINDIA", "DOON", "MAYO", "ST. COLUMBA'S"]
+  }, {
+    color: "r",
+    name: "Hangout Spots in a School",
+    items: ["WATER COOLER", "CANTEEN", "WASHROOM", "GROUND"]
+  }, {
+    color: "b",
+    name: "Kids Magazines",
+    items: ["TINKLE", "NANDAN", "TELL ME WHY", "CHAMPAK"]
+  }, {
+    color: "p",
+    name: "Dips",
+    items: ["MUSTARD", "KETCHUP", "1000 ISLANDS", "RANCH"]
+  }]
+},
+// DAY 7 (rivers — now June 22)
 {
   groups: [{
     color: "y",
@@ -1673,6 +1693,23 @@ const resolveTodaysPuzzle = () => {
   if (arrIdx < 0 || arrIdx >= PUZZLES.length) return null;
   return buildPuzzleFromIndex(arrIdx);
 };
+// Map an array index back to its calendar day index (accounting for the 4 break days),
+// and build the list of past puzzles for the Archive (everything up to and including today).
+const MI_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const dateLabelForDayIndex = di => {
+  const d = new Date(Date.UTC(2026, 4, 28));
+  d.setUTCDate(d.getUTCDate() + di);
+  return { mon: MI_MONTHS[d.getUTCMonth()], day: d.getUTCDate() };
+};
+const dayIndexForArrayIndex = a => a < BREAK_START_INDEX ? a : a + BREAK_DAYS;
+const getArchiveIndices = () => {
+  const today = getDayIndex();
+  const out = [];
+  for (let a = 0; a < PUZZLES.length; a++) {
+    if (dayIndexForArrayIndex(a) <= today) out.push(a);
+  }
+  return out;
+};
 const CAT_COLOR = {
   y: "#C9920A",
   r: "#B82020",
@@ -2275,6 +2312,10 @@ const CSS = `
   .mi-play:hover  { transform:translate(-4px,-4px); box-shadow:0 0 0 2px #E8950A,0 0 0 5px #FFD700,0 0 0 8px #1A0820,0 0 0 11px #CC2200,11px 11px 0 11px rgba(0,0,0,0.5); }
   .mi-play:active { transform:translate(4px,4px);  box-shadow:0 0 0 2px #E8950A,0 0 0 5px #FFD700,0 0 0 8px #1A0820,0 0 0 11px #CC2200,2px 2px 0 11px rgba(0,0,0,0.5); }
   .mi-play:focus-visible { outline:3px solid #4EC9E1; outline-offset:8px; }
+  .mi-archive-btn { margin-top:18px; font-family:'Lilita One',sans-serif; font-size:1rem; letter-spacing:2px; color:#1A0820; background:#FFD700; border:3px solid #1A0820; border-radius:5px; padding:9px 26px; cursor:pointer; box-shadow:4px 4px 0 #1A0820; transition:transform 0.1s, box-shadow 0.1s; }
+  .mi-archive-btn:hover  { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #1A0820; }
+  .mi-archive-btn:active { transform:translate(2px,2px);  box-shadow:2px 2px 0 #1A0820; }
+  .mi-archive-btn:focus-visible { outline:3px solid #4EC9E1; outline-offset:4px; }
 
   @keyframes playEnter { from{opacity:0;transform:translateY(32px) scale(0.88);} to{opacity:1;transform:translateY(0) scale(1);} }
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
@@ -2981,7 +3022,10 @@ function Mimir() {
   }))), /*#__PURE__*/React.createElement("button", {
     className: "mi-play",
     onClick: handlePlay
-  }, "PLAY")), /*#__PURE__*/React.createElement("div", {
+  }, "PLAY"), /*#__PURE__*/React.createElement("button", {
+    className: "mi-archive-btn",
+    onClick: () => setScreen("archive")
+  }, "ARCHIVE")), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
       bottom: 36,
@@ -3079,6 +3123,81 @@ function Mimir() {
         lineHeight: 1
       }
     }, String(day)));
+  })), /*#__PURE__*/React.createElement("button", {
+    className: "mi-replay",
+    style: {
+      marginTop: 28,
+      background: "rgba(255,246,226,0.85)"
+    },
+    onClick: () => setScreen("landing")
+  }, "\u2190 Home")), screen === "archive" && /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      width: "100%",
+      background: "#E8950A",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "48px 20px 64px",
+      boxSizing: "border-box",
+      overflowY: "auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mi-wordmark",
+    style: {
+      fontSize: "clamp(2rem,9vw,3.2rem)",
+      color: "#1A0820",
+      letterSpacing: "4px",
+      marginBottom: 6,
+      textShadow: "2px 2px 0 rgba(255,215,0,0.7)"
+    }
+  }, "ARCHIVE"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Caveat',cursive",
+      fontSize: "clamp(1.1rem,4vw,1.45rem)",
+      color: "#3A1605",
+      textAlign: "center",
+      marginBottom: 26
+    }
+  }, "Every Mimir puzzle since launch \u00B7 a new one lands each day"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill,minmax(86px,1fr))",
+      gap: 12,
+      width: "100%",
+      maxWidth: 520
+    }
+  }, getArchiveIndices().map(a => {
+    const lbl = dateLabelForDayIndex(dayIndexForArrayIndex(a));
+    return /*#__PURE__*/React.createElement("button", {
+      key: a,
+      onClick: () => playArchive(a),
+      style: {
+        cursor: "pointer",
+        border: "2px solid #1A0820",
+        borderRadius: 12,
+        background: "#FFF6E2",
+        padding: "13px 6px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 3,
+        fontFamily: "'Lilita One',sans-serif",
+        color: "#3A1605",
+        boxShadow: "0 3px 0 #1A0820"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "0.62rem",
+        letterSpacing: "1px",
+        color: "#9A6A12"
+      }
+    }, lbl.mon.toUpperCase()), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "1.55rem",
+        lineHeight: 1
+      }
+    }, String(lbl.day)));
   })), /*#__PURE__*/React.createElement("button", {
     className: "mi-replay",
     style: {
