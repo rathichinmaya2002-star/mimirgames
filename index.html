@@ -1003,7 +1003,27 @@ const PUZZLES = [
     items: ["SEATS", "CARPET", "EXIT", "MIC"]
   }]
 },
-// JULY 3
+// JULY 3 (repeat of July 2)
+{
+  groups: [{
+    color: "y",
+    name: "Vowels",
+    items: ["A", "E", "O", "U"]
+  }, {
+    color: "r",
+    name: "Apple Is Known For",
+    items: ["I", "JOBS", "SILICON VALLEY", "PRIVACY"]
+  }, {
+    color: "b",
+    name: "School Textbook Authors",
+    items: ["RD", "RS", "HC", "DK"]
+  }, {
+    color: "p",
+    name: "Auditorium Has",
+    items: ["SEATS", "CARPET", "EXIT", "MIC"]
+  }]
+},
+// JULY 4
 {
   groups: [{
     color: "y",
@@ -1023,7 +1043,7 @@ const PUZZLES = [
     items: ["DATA", "TATA", "AATA", "PATA"]
   }]
 },
-// JULY 4
+// JULY 5
 {
   groups: [{
     color: "y",
@@ -1066,10 +1086,7 @@ const buildPuzzleFromIndex = (arrIdx, extra) => {
 };
 // The Coca-Cola puzzle (array index 28 = June 29) is the last scheduled puzzle.
 // Days after it have no daily puzzle and show the "no puzzle today" screen.
-const LAST_PLAYABLE_INDEX = 33;
-// Promo LinkedIn button shown next to Play for 6 days (June 29 – July 4 = day indices 32–37).
-const LINKEDIN_POST_URL = "https://www.linkedin.com/feed/update/urn:li:activity:7477119641686044672/";
-const LINKEDIN_UNTIL_INDEX = 37;
+const LAST_PLAYABLE_INDEX = 34;
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
   if (idx < 0) return null;
@@ -1703,10 +1720,6 @@ const CSS = `
   .mi-archive-btn:hover  { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #1A0820; }
   .mi-archive-btn:active { transform:translate(2px,2px);  box-shadow:2px 2px 0 #1A0820; }
   .mi-archive-btn:focus-visible { outline:3px solid #4EC9E1; outline-offset:4px; }
-  .mi-li-btn { display:inline-flex; align-items:center; justify-content:center; width:54px; height:54px; flex:none; color:#fff; background:#0A66C2; border:3px solid #1A0820; border-radius:12px; box-shadow:4px 4px 0 #1A0820; cursor:pointer; transition:transform 0.1s, box-shadow 0.1s; animation:playEnter 0.8s 0.95s cubic-bezier(0.34,1.56,0.64,1) both; }
-  .mi-li-btn:hover  { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #1A0820; }
-  .mi-li-btn:active { transform:translate(2px,2px);  box-shadow:2px 2px 0 #1A0820; }
-  .mi-li-btn:focus-visible { outline:3px solid #4EC9E1; outline-offset:4px; }
 
   @keyframes playEnter { from{opacity:0;transform:translateY(32px) scale(0.88);} to{opacity:1;transform:translateY(0) scale(1);} }
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
@@ -2112,21 +2125,6 @@ function Mimir() {
     const pz = buildPuzzleFromIndex(arrIdx, { archive: true });
     if (pz) startGame(pz);
   };
-  const liButton = () => getDayIndex() <= LINKEDIN_UNTIL_INDEX ? /*#__PURE__*/React.createElement("a", {
-    href: LINKEDIN_POST_URL,
-    target: "_blank",
-    rel: "noopener noreferrer",
-    className: "mi-li-btn",
-    "aria-label": "See Chinmaya's LinkedIn post"
-  }, /*#__PURE__*/React.createElement("svg", {
-    viewBox: "0 0 24 24",
-    width: 26,
-    height: 26,
-    fill: "currentColor",
-    "aria-hidden": "true"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"
-  }))) : null;
   useEffect(() => {
     if (!won) return;
     clearInterval(timerRef.current);
@@ -2246,17 +2244,10 @@ function Mimir() {
     style: {
       maxWidth: 480
     }
-  }, "ur a real one for logging in today, i'm chinmaya and the reason you're seeing this text is because i probably had some assignment which made it impossible for me to make a puzzle today, pls play the archive, pls come back tomorrow tho :))"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 14
-    }
-  }, /*#__PURE__*/React.createElement("button", {
+  }, "ur a real one for logging in today, i'm chinmaya and the reason you're seeing this text is because i probably had some assignment which made it impossible for me to make a puzzle today, pls play the archive, pls come back tomorrow tho :))"), /*#__PURE__*/React.createElement("button", {
     className: "mi-archive-btn",
     onClick: () => setScreen("archive")
-  }, "PLAY THE ARCHIVE"), liButton())), /*#__PURE__*/React.createElement(ScallopBorder, {
+  }, "PLAY THE ARCHIVE")), /*#__PURE__*/React.createElement(ScallopBorder, {
     flip: true
   }));
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, CSS), /*#__PURE__*/React.createElement("input", {
@@ -2441,17 +2432,10 @@ function Mimir() {
       background: c,
       boxShadow: `0 3px 10px ${c}99`
     }
-  }))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 14
-    }
-  }, /*#__PURE__*/React.createElement("button", {
+  }))), /*#__PURE__*/React.createElement("button", {
     className: "mi-play",
     onClick: handlePlay
-  }, "PLAY"), liButton()), /*#__PURE__*/React.createElement("button", {
+  }, "PLAY"), /*#__PURE__*/React.createElement("button", {
     className: "mi-archive-btn",
     onClick: () => setScreen("archive")
   }, "ARCHIVE")), /*#__PURE__*/React.createElement("div", {
