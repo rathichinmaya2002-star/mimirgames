@@ -1063,6 +1063,106 @@ const PUZZLES = [
     items: ["LLB", "LITIGATION", "CLAT", "NLU"]
   }]
 },
+// JULY 6
+{
+  groups: [{
+    color: "y",
+    name: "Master____",
+    items: ["CV", "ROSHI", "CHEF", "P MILLER"]
+  }, {
+    color: "r",
+    name: "Finance Terms",
+    items: ["VC", "LEVERAGE", "EQUITY", "RETURN"]
+  }, {
+    color: "b",
+    name: "_C People Grew Up With Post-1990s",
+    items: ["AC", "MC", "GC", "PC"]
+  }, {
+    color: "p",
+    name: "Websites From the 90s",
+    items: ["FABMART", "VUCLIP", "YAHOO", "GETJAR"]
+  }]
+},
+// JULY 7
+{
+  groups: [{
+    color: "y",
+    name: "Juices Found on Blinkit",
+    items: ["REAL", "PLUCKK", "TROPICANA", "YU"]
+  }, {
+    color: "r",
+    name: "Intelligence Agencies",
+    items: ["RAW", "CIA", "MOSSAD", "MI6"]
+  }, {
+    color: "b",
+    name: "Music Terms",
+    items: ["TAAL", "BAR", "VERSE", "BPM"]
+  }, {
+    color: "p",
+    name: "Hospitality Businesses",
+    items: ["HOTEL", "RESTAURANT", "RESORT", "AIRBNB"]
+  }]
+},
+// JULY 8
+{
+  groups: [{
+    color: "y",
+    name: "Famous Theories",
+    items: ["MURPHY", "MASLOW", "PAVLOV", "SCHRODINGER"]
+  }, {
+    color: "r",
+    name: "Bookstores",
+    items: ["BLOSSOMS", "FAQIR CHAND", "WORDSWORTH", "OM"]
+  }, {
+    color: "b",
+    name: "O_ Existing in Pop Culture",
+    items: ["OP", "OK", "OG", "OD"]
+  }, {
+    color: "p",
+    name: "Dictionaries",
+    items: ["OXFORD", "CAMBRIDGE", "LONGMAN", "MERRIAM-WEBSTER"]
+  }]
+},
+// JULY 9
+{
+  groups: [{
+    color: "y",
+    name: "Karan Johar Is Related To",
+    items: ["COFFEE", "NRI", "DHARMA", "SRK"]
+  }, {
+    color: "r",
+    name: "Bengaluru Breakfast Essentials",
+    items: ["DOSA", "BATH", "VADA", "IDLY"]
+  }, {
+    color: "b",
+    name: "Morning Routine",
+    items: ["BRUSH", "SHAVE", "BREAKFAST", "MAKE BED"]
+  }, {
+    color: "p",
+    name: "Painting Supplies",
+    items: ["CANVAS", "PAINTS", "EASEL", "MAULSTICK"]
+  }]
+},
+// JULY 10
+{
+  groups: [{
+    color: "y",
+    name: "Seeds We Eat",
+    items: ["QUINOA", "CHIA", "FLAX", "SUNFLOWER"]
+  }, {
+    color: "r",
+    name: "Yellow Flowers",
+    items: ["DAFFODIL", "MARIGOLD", "DANDELION", "AMALTAS"]
+  }, {
+    color: "b",
+    name: "Sharbats",
+    items: ["KHUS", "KESAR", "BADAM", "KOKUM"]
+  }, {
+    color: "p",
+    name: "Fibre Sources",
+    items: ["RAGI", "BAJRA", "RAJMA", "MOONG"]
+  }]
+},
 ];
 
 // ─── PUZZLE RESOLVER ──────────────────────────────────────────────────────────
@@ -1086,7 +1186,7 @@ const buildPuzzleFromIndex = (arrIdx, extra) => {
 };
 // The Coca-Cola puzzle (array index 28 = June 29) is the last scheduled puzzle.
 // Days after it have no daily puzzle and show the "no puzzle today" screen.
-const LAST_PLAYABLE_INDEX = 34;
+const LAST_PLAYABLE_INDEX = 39;
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
   if (idx < 0) return null;
