@@ -1203,6 +1203,46 @@ const PUZZLES = [
     items: ["DOWN", "UP", "ELASTIC", "INFLATED"]
   }]
 },
+// JULY 13
+{
+  groups: [{
+    color: "y",
+    name: "Tata Companies",
+    items: ["JAGUAR", "LAND ROVER", "TITAN", "WESTSIDE"]
+  }, {
+    color: "r",
+    name: "Mythical Creatures",
+    items: ["VAMPIRE", "ZOMBIE", "GHOUL", "GIANT"]
+  }, {
+    color: "b",
+    name: "Cat Family",
+    items: ["LEOPARD", "LION", "CHEETAH", "TIGER"]
+  }, {
+    color: "p",
+    name: "Indian Fashion Brands",
+    items: ["ALMOSTGODS", "AURELIA", "LOUIS PHILIPPE", "RITU KUMAR"]
+  }]
+},
+// JULY 14
+{
+  groups: [{
+    color: "y",
+    name: "Found in Rural Areas",
+    items: ["TUBEWELL", "PANCHAYAT", "NBFC", "TRACTORS"]
+  }, {
+    color: "r",
+    name: "__FC",
+    items: ["HDFC", "IDFC", "KFC", "UFC"]
+  }, {
+    color: "b",
+    name: "TVF Shows",
+    items: ["TRIPLING", "HOSTEL DAZE", "IMMATURE", "PITCHERS"]
+  }, {
+    color: "p",
+    name: "Types of Loans",
+    items: ["CAR", "HOME", "PERSONAL", "STUDENT"]
+  }]
+},
 ];
 
 // ─── PUZZLE RESOLVER ──────────────────────────────────────────────────────────
@@ -1226,7 +1266,7 @@ const buildPuzzleFromIndex = (arrIdx, extra) => {
 };
 // The Coca-Cola puzzle (array index 28 = June 29) is the last scheduled puzzle.
 // Days after it have no daily puzzle and show the "no puzzle today" screen.
-const LAST_PLAYABLE_INDEX = 41;
+const LAST_PLAYABLE_INDEX = 43;
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
   if (idx < 0) return null;
