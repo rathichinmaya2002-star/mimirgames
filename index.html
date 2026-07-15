@@ -1243,6 +1243,46 @@ const PUZZLES = [
     items: ["CAR", "HOME", "PERSONAL", "STUDENT"]
   }]
 },
+// JULY 15
+{
+  groups: [{
+    color: "y",
+    name: "Found in Corporate Hubs",
+    items: ["BIG 4", "STARBUCKS", "PATAGONIA", "NARCISSISM"]
+  }, {
+    color: "r",
+    name: "Coffee Core",
+    items: ["BEANS", "FILTER", "BLACK", "INSOMNIA"]
+  }, {
+    color: "b",
+    name: "7 Deadly Sins",
+    items: ["LUST", "SLOTH", "GREED", "GLUTTONY"]
+  }, {
+    color: "p",
+    name: "Protein Is Found In",
+    items: ["WAFER", "COOKIE", "ROTI", "MILKSHAKE"]
+  }]
+},
+// JULY 17
+{
+  groups: [{
+    color: "y",
+    name: "Famous College Fests",
+    items: ["MOOD-I", "CROSSROADS", "RENDEZVOUS", "WAVES"]
+  }, {
+    color: "r",
+    name: "Goa Trip May Involve",
+    items: ["CHAPORA", "\uD83C\uDF54\uD83C\uDFED", "\uD83C\uDFB0", "BEACHES"]
+  }, {
+    color: "b",
+    name: "Pronounced Ending With \"E\"",
+    items: ["FOODIE", "MOODY", "TECHIE", "NEWBIE"]
+  }, {
+    color: "p",
+    name: "Types of Trips",
+    items: ["MOUNTAIN", "MUSIC FEST", "BUSINESS", "FISHING"]
+  }]
+},
 ];
 
 // ─── PUZZLE RESOLVER ──────────────────────────────────────────────────────────
@@ -1254,6 +1294,11 @@ const PUZZLES = [
 const BREAK_START_INDEX = 17; // June 14
 const BREAK_END_INDEX = 20;   // June 17
 const BREAK_DAYS = 4;
+// Individual days with no puzzle at all (a day Chinmaya missed). These show the
+// "no puzzle today" screen, and every later day shifts one array slot earlier so the
+// PUZZLES array stays contiguous. Keep sorted ascending. 48 = July 15, 2026.
+const SKIPPED_DAY_INDICES = [48];
+const skipsBefore = di => SKIPPED_DAY_INDICES.filter(s => s < di).length;
 const ARCHIVE_START_INDEX = 4;  // June 1
 const ARCHIVE_END_INDEX = 16;   // June 13
 const buildPuzzleFromIndex = (arrIdx, extra) => {
@@ -1266,14 +1311,15 @@ const buildPuzzleFromIndex = (arrIdx, extra) => {
 };
 // The Coca-Cola puzzle (array index 28 = June 29) is the last scheduled puzzle.
 // Days after it have no daily puzzle and show the "no puzzle today" screen.
-const LAST_PLAYABLE_INDEX = 43;
+const LAST_PLAYABLE_INDEX = 45;
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
   if (idx < 0) return null;
   if (idx >= BREAK_START_INDEX && idx <= BREAK_END_INDEX) {
     return { onBreak: true, dayIndex: idx, categories: [] };
   }
-  const arrIdx = idx > BREAK_END_INDEX ? idx - BREAK_DAYS : idx;
+  if (SKIPPED_DAY_INDICES.indexOf(idx) !== -1) return null;
+  const arrIdx = (idx > BREAK_END_INDEX ? idx - BREAK_DAYS : idx) - skipsBefore(idx);
   if (arrIdx < 0 || arrIdx > LAST_PLAYABLE_INDEX || arrIdx >= PUZZLES.length) return null;
   return buildPuzzleFromIndex(arrIdx);
 };
@@ -1285,7 +1331,13 @@ const dateLabelForDayIndex = di => {
   d.setUTCDate(d.getUTCDate() + di);
   return { mon: MI_MONTHS[d.getUTCMonth()], day: d.getUTCDate() };
 };
-const dayIndexForArrayIndex = a => a < BREAK_START_INDEX ? a : a + BREAK_DAYS;
+const dayIndexForArrayIndex = a => {
+  let di = a < BREAK_START_INDEX ? a : a + BREAK_DAYS;
+  for (let i = 0; i < SKIPPED_DAY_INDICES.length; i++) {
+    if (SKIPPED_DAY_INDICES[i] <= di) di++;
+  }
+  return di;
+};
 const getArchiveIndices = () => {
   const today = getDayIndex();
   const out = [];
