@@ -1283,6 +1283,106 @@ const PUZZLES = [
     items: ["MOUNTAIN", "MUSIC FEST", "BUSINESS", "FISHING"]
   }]
 },
+// JULY 18
+{
+  groups: [{
+    color: "y",
+    name: "Alcohol Brands",
+    items: ["AB INBEV", "DIAGEO", "UB", "GUINNESS"]
+  }, {
+    color: "r",
+    name: "CBSE English Lore",
+    items: ["CANDLESTICKS", "DANNY CASEY", "3RD LEVEL", "O-LEVEL"]
+  }, {
+    color: "b",
+    name: "Came Recently to Bombay",
+    items: ["RAINS", "CALI B", "ALIENKIND", "CATS MUSICAL"]
+  }, {
+    color: "p",
+    name: "Prohibited in a Class",
+    items: ["FOOD", "PHONE", "SLEEPING", "COMING LATE"]
+  }]
+},
+// JULY 19
+{
+  groups: [{
+    color: "y",
+    name: "Bike Brands",
+    items: ["KAWASAKI", "YAMAHA", "APRILIA", "TVS"]
+  }, {
+    color: "r",
+    name: "Male Protagonist Is Called",
+    items: ["HERO", "LEAD", "STAR", "NAYAK"]
+  }, {
+    color: "b",
+    name: "Related to Bajaj",
+    items: ["CHETAK", "KAPIL DEV", "FINSERV", "2-STROKE ENGINE"]
+  }, {
+    color: "p",
+    name: "Indian Cricketers in the 2011 WC",
+    items: ["KOHLI", "MSD", "YUVI", "TENDULKAR"]
+  }]
+},
+// JULY 20
+{
+  groups: [{
+    color: "y",
+    name: "\"Kya Chal Raha Hai?\" Response",
+    items: ["KUCH NAHI", "FOGG", "BAS...", "THEEK HUN"]
+  }, {
+    color: "r",
+    name: "Advertising Channels in the 80s",
+    items: ["TV", "PAMPHLET", "NEWSPAPER", "BANNER"]
+  }, {
+    color: "b",
+    name: "1900s Innovations",
+    items: ["COMPUTER", "PAGER", "FAX", "PRINTER"]
+  }, {
+    color: "p",
+    name: "Fragrance Brands",
+    items: ["AXE", "BELLA VITA", "HAWAS", "AJMAL"]
+  }]
+},
+// JULY 21
+{
+  groups: [{
+    color: "y",
+    name: "Popcorn Core",
+    items: ["COOKER", "4700", "BUTTER", "CINEMA"]
+  }, {
+    color: "r",
+    name: "A Stage Play Has",
+    items: ["ACT II", "CURTAIN CALL", "COSTUME", "ENSEMBLE"]
+  }, {
+    color: "b",
+    name: "Movie Chains",
+    items: ["INOX", "PVR", "MARATHA MANDIR", "CINEPOLIS"]
+  }, {
+    color: "p",
+    name: "People Together Are Called",
+    items: ["GROUP", "GANG", "GATHERING", "BUNCH"]
+  }]
+},
+// JULY 22
+{
+  groups: [{
+    color: "y",
+    name: "Make-at-Home Brands",
+    items: ["MAGGI", "ACT II", "KNORR", "MCCAIN"]
+  }, {
+    color: "r",
+    name: "Quick Commerce Is Responsible For",
+    items: ["ROAD ACCIDENTS", "EMPLOYMENT", "10 MIN DEL", "DARK STORES"]
+  }, {
+    color: "b",
+    name: "Supermarkets Core",
+    items: ["AISLE", "COUNTER", "CART", "DECISION PARALYSIS"]
+  }, {
+    color: "p",
+    name: "Carried Hanging by the Body",
+    items: ["BACKPACK", "TOTE", "FANNY PACK", "BASKET"]
+  }]
+},
 ];
 
 // ─── PUZZLE RESOLVER ──────────────────────────────────────────────────────────
@@ -1296,8 +1396,8 @@ const BREAK_END_INDEX = 20;   // June 17
 const BREAK_DAYS = 4;
 // Individual days with no puzzle at all (a day Chinmaya missed). These show the
 // "no puzzle today" screen, and every later day shifts one array slot earlier so the
-// PUZZLES array stays contiguous. Keep sorted ascending. 48 = July 15, 2026.
-const SKIPPED_DAY_INDICES = [48];
+// PUZZLES array stays contiguous. Keep sorted ascending. 48 = July 15, 51 = July 18, 2026.
+const SKIPPED_DAY_INDICES = [48, 51];
 const skipsBefore = di => SKIPPED_DAY_INDICES.filter(s => s < di).length;
 const ARCHIVE_START_INDEX = 4;  // June 1
 const ARCHIVE_END_INDEX = 16;   // June 13
@@ -1311,7 +1411,7 @@ const buildPuzzleFromIndex = (arrIdx, extra) => {
 };
 // The Coca-Cola puzzle (array index 28 = June 29) is the last scheduled puzzle.
 // Days after it have no daily puzzle and show the "no puzzle today" screen.
-const LAST_PLAYABLE_INDEX = 45;
+const LAST_PLAYABLE_INDEX = 50;
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
   if (idx < 0) return null;
