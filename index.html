@@ -1403,6 +1403,66 @@ const PUZZLES = [
     items: ["STORY", "INSTANT", "POST", "SEARCH"]
   }]
 },
+// JULY 25
+{
+  groups: [{
+    color: "y",
+    name: "Where 2 People Battle It Out",
+    items: ["DEBATE", "RAP", "DANCE", "JUGALBANDI"]
+  }, {
+    color: "r",
+    name: "\"Fast\" Is Used For",
+    items: ["SEATBELT", "QUICK", "NOT EATING", "STANDING STILL"]
+  }, {
+    color: "b",
+    name: "NCERT Books",
+    items: ["FLAMINGO", "SPARSH", "HORNBILL", "VISTAS"]
+  }, {
+    color: "p",
+    name: "Birds in India",
+    items: ["KINGFISHER", "EAGLE", "PARROT", "PEACOCK"]
+  }]
+},
+// JULY 26
+{
+  groups: [{
+    color: "y",
+    name: "AI Default Writing Style",
+    items: ["X NOT Y", "\u2014", "AMERICAN", "EXAGGERATION"]
+  }, {
+    color: "r",
+    name: "BRICS Nationalities",
+    items: ["BRAZILIAN", "RUSSIAN", "INDIAN", "EGYPTIAN"]
+  }, {
+    color: "b",
+    name: "Words for Creation",
+    items: ["BIRTH", "ORGANISATION", "PROCREATION", "RESURRECTION"]
+  }, {
+    color: "p",
+    name: ".___ Full Forms",
+    items: ["COMMERCIAL", "INDIA", "COMPANY", "NETWORK"]
+  }]
+},
+// JULY 27
+{
+  groups: [{
+    color: "y",
+    name: "Things That Are Set",
+    items: ["DOSA", "WET", "MOVIE", "SCENE"]
+  }, {
+    color: "r",
+    name: "Foods That Are Round",
+    items: ["LADDU", "CHAPATI", "PURI", "IDLY"]
+  }, {
+    color: "b",
+    name: "_et",
+    items: ["PET", "BET", "NET", "MET"]
+  }, {
+    color: "p",
+    name: "Sweets",
+    items: ["BURFI", "MILK CAKE", "SOAN PAPDI", "RABDI"]
+  }]
+},
 ];
 
 // ─── PUZZLE RESOLVER ──────────────────────────────────────────────────────────
@@ -1431,7 +1491,7 @@ const buildPuzzleFromIndex = (arrIdx, extra) => {
 };
 // The Coca-Cola puzzle (array index 28 = June 29) is the last scheduled puzzle.
 // Days after it have no daily puzzle and show the "no puzzle today" screen.
-const LAST_PLAYABLE_INDEX = 51;
+const LAST_PLAYABLE_INDEX = 54;
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
   if (idx < 0) return null;
