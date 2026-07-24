@@ -1383,6 +1383,26 @@ const PUZZLES = [
     items: ["BACKPACK", "TOTE", "FANNY PACK", "BASKET"]
   }]
 },
+// JULY 24
+{
+  groups: [{
+    color: "y",
+    name: "Movie Genres",
+    items: ["SCI-FI", "ACTION", "ROMCOM", "PARODY"]
+  }, {
+    color: "r",
+    name: "Michael Jackson Albums",
+    items: ["THRILLER", "BEN", "BAD", "INVINCIBLE"]
+  }, {
+    color: "b",
+    name: "Associated With 10",
+    items: ["S. TENDULKAR", "MESSI", "THINGS I HATE ABOUT YOU", "TOP"]
+  }, {
+    color: "p",
+    name: "IG Features",
+    items: ["STORY", "INSTANT", "POST", "SEARCH"]
+  }]
+},
 ];
 
 // ─── PUZZLE RESOLVER ──────────────────────────────────────────────────────────
@@ -1411,7 +1431,7 @@ const buildPuzzleFromIndex = (arrIdx, extra) => {
 };
 // The Coca-Cola puzzle (array index 28 = June 29) is the last scheduled puzzle.
 // Days after it have no daily puzzle and show the "no puzzle today" screen.
-const LAST_PLAYABLE_INDEX = 50;
+const LAST_PLAYABLE_INDEX = 51;
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
   if (idx < 0) return null;
