@@ -1463,6 +1463,106 @@ const PUZZLES = [
     items: ["BURFI", "MILK CAKE", "SOAN PAPDI", "RABDI"]
   }]
 },
+// AUG 13
+{
+  groups: [{
+    color: "y",
+    name: "Metro Announcements Relate To",
+    items: ["STATIONS", "OPENING DOORS", "LAST STATION", "CHANGE LINES"]
+  }, {
+    color: "r",
+    name: "Delhi Metro Lines",
+    items: ["YELLOW", "VIOLET", "PINK", "MAGENTA"]
+  }, {
+    color: "b",
+    name: "___ Area",
+    items: ["GREY", "CARPET", "PLOT", "METROPOLITAN"]
+  }, {
+    color: "p",
+    name: "_____ Line",
+    items: ["BOTTOM", "HEAD", "FINISH", "HAIR"]
+  }]
+},
+// AUG 14
+{
+  groups: [{
+    color: "y",
+    name: "Only-in-India English",
+    items: ["PREPONE", "COUSIN BROTHER", "PASSING OUT", "OUT OF STATION"]
+  }, {
+    color: "r",
+    name: "_____ Station",
+    items: ["POLICE", "BUS", "RAILWAY", "SPACE"]
+  }, {
+    color: "b",
+    name: "Government Office English",
+    items: ["KINDLY REVERT", "DO THE NEEDFUL", "HEREWITH", "SAME IS ATTACHED"]
+  }, {
+    color: "p",
+    name: "Hindi Words in the OED",
+    items: ["JUGAAD", "TIMEPASS", "DADAGIRI", "CHAMCHA"]
+  }]
+},
+// AUG 15
+{
+  groups: [{
+    color: "y",
+    name: "Alia Bhatt Films",
+    items: ["RAAZI", "HIGHWAY", "GANGUBAI", "DARLINGS"]
+  }, {
+    color: "r",
+    name: "Iconic Bollywood Maas",
+    items: ["NIRUPA ROY", "REEMA LAGOO", "FARIDA JALAL", "RAKHEE"]
+  }, {
+    color: "b",
+    name: "Netflix India Originals",
+    items: ["DELHI CRIME", "SACRED GAMES", "MISMATCHED", "HEERAMANDI"]
+  }, {
+    color: "p",
+    name: "'Agreed'",
+    items: ["MANZOOR", "SAHMAT", "KABOOL", "ZAROOR"]
+  }]
+},
+// AUG 16
+{
+  groups: [{
+    color: "y",
+    name: "Types of Chai",
+    items: ["MASALA", "KADAK", "IRANI", "TANDOORI"]
+  }, {
+    color: "r",
+    name: "Music Festivals in India",
+    items: ["NH7", "ZIRO", "SUNBURN", "LOLLA"]
+  }, {
+    color: "b",
+    name: "Indian Indie Bands",
+    items: ["PARVAAZ", "LOCAL TRAIN", "WCMT", "INDIAN OCEAN"]
+  }, {
+    color: "p",
+    name: "_____ Ocean",
+    items: ["ARCTIC", "ATLANTIC", "PACIFIC", "FRANK"]
+  }]
+},
+// AUG 17
+{
+  groups: [{
+    color: "y",
+    name: "Brunch Menu Regulars",
+    items: ["AVO TOAST", "EGGS BENEDICT", "ACAI BOWL", "PANCAKES"]
+  }, {
+    color: "r",
+    name: "Bombay Cafes",
+    items: ["SUZETTE", "SUBKO", "PRITHVI", "KALA GHODA"]
+  }, {
+    color: "b",
+    name: "Filter Kaapi Vocabulary",
+    items: ["DEGREE", "DECOCTION", "DAVARA", "TUMBLER"]
+  }, {
+    color: "p",
+    name: "_____ White",
+    items: ["FLAT", "EGG", "OFF", "BONE"]
+  }]
+},
 ];
 
 // ─── PUZZLE RESOLVER ──────────────────────────────────────────────────────────
@@ -1476,8 +1576,9 @@ const BREAK_END_INDEX = 20;   // June 17
 const BREAK_DAYS = 4;
 // Individual days with no puzzle at all (a day Chinmaya missed). These show the
 // "no puzzle today" screen, and every later day shifts one array slot earlier so the
-// PUZZLES array stays contiguous. Keep sorted ascending. 48 = July 15, 51 = July 18, 2026.
-const SKIPPED_DAY_INDICES = [48, 51];
+// PUZZLES array stays contiguous. Keep sorted ascending.
+// 48 = July 15, 51 = July 18, 61-76 = July 28 - Aug 12 (no puzzles). All 2026.
+const SKIPPED_DAY_INDICES = [48, 51, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76];
 const skipsBefore = di => SKIPPED_DAY_INDICES.filter(s => s < di).length;
 const ARCHIVE_START_INDEX = 4;  // June 1
 const ARCHIVE_END_INDEX = 16;   // June 13
@@ -1491,7 +1592,7 @@ const buildPuzzleFromIndex = (arrIdx, extra) => {
 };
 // The Coca-Cola puzzle (array index 28 = June 29) is the last scheduled puzzle.
 // Days after it have no daily puzzle and show the "no puzzle today" screen.
-const LAST_PLAYABLE_INDEX = 54;
+const LAST_PLAYABLE_INDEX = 59;
 const resolveTodaysPuzzle = () => {
   const idx = getDayIndex();
   if (idx < 0) return null;
@@ -2647,7 +2748,7 @@ function Mimir() {
   const gridTiles = board.filter(w => !solvedWordSet.has(w) || flyingSet.has(w));
 
   // ── Coming soon screen ──
-  if (noMorePuzzles && screen !== "game" && screen !== "archive") return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, CSS), /*#__PURE__*/React.createElement("style", null, `.mi-soon{min-height:100vh;width:100%;background:#E8950A;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:40px}.mi-soon-title{font-family:'Lilita One',sans-serif;font-size:clamp(2rem,8vw,4rem);color:#1A0820;letter-spacing:5px;text-align:center;text-shadow:2px 2px 0 rgba(255,215,0,0.7)}.mi-soon-sub{font-family:'Caveat',cursive;font-size:clamp(1.2rem,4vw,1.8rem);color:#4A2010;text-align:center;max-width:400px;line-height:1.5}`), /*#__PURE__*/React.createElement(ScallopBorder, null), /*#__PURE__*/React.createElement("div", {
+  if (noMorePuzzles && screen !== "game" && screen !== "archive" && screen !== "end") return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, CSS), /*#__PURE__*/React.createElement("style", null, `.mi-soon{min-height:100vh;width:100%;background:#E8950A;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:40px}.mi-soon-title{font-family:'Lilita One',sans-serif;font-size:clamp(2rem,8vw,4rem);color:#1A0820;letter-spacing:5px;text-align:center;text-shadow:2px 2px 0 rgba(255,215,0,0.7)}.mi-soon-sub{font-family:'Caveat',cursive;font-size:clamp(1.2rem,4vw,1.8rem);color:#4A2010;text-align:center;max-width:400px;line-height:1.5}`), /*#__PURE__*/React.createElement(ScallopBorder, null), /*#__PURE__*/React.createElement("div", {
     className: "mi-soon"
   }, /*#__PURE__*/React.createElement("div", {
     className: "mi-soon-title"
